@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Foto de Perfil</title>
+<style>
+.profile-picture-label {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* Cor de fundo mais suave */
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+    border: 3px solid #007bff; /* Cor de borda azul mais vibrante */
+    text-align: center;
+    line-height: 150px;
+    color: #333; /* Cor do texto mais escura para contraste */
+    font-size: 16px; /* Aumenta o tamanho da fonte para melhor legibilidade */
+    transition: all 0.3s ease; /* Adiciona uma transição suave para os efeitos */
+}
+
+.profile-picture-label:hover {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2); /* Efeito de sombra mais forte */
+    border-color: #0056b3; /* Cor da borda muda para um azul mais escuro */
+    background-color: #f8f9fa; /* Cor de fundo mais clara no hover */
+    color: #000; /* Cor do texto muda para preto no hover */
+}
+</style>
+</head>
+<body>
+    <h2>Cadastro - Foto de Perfil</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label for="profile_picture" class="profile-picture-label" id="profile-picture-label">
+
+            Escolha sua foto
+        </label>
+        
+        <input type="file" id="profile_picture" name="profile_picture" accept="image/*" onchange="loadFile(event)">
+        <button type="submit">Prosseguir</button>
+    </form>
+
+    <script>
+        // Carrega a imagem do localStorage ao carregar a página
+        window.onload = function() {
+            var savedImage = localStorage.getItem('profileImage');
+            if (savedImage) {
+                var output = document.getElementById('profile-picture-label');
+                output.style.backgroundImage = "url('" + savedImage + "')";
+                output.textContent = ''; // Remove o texto se a imagem estiver carregada
+            }
+        };
+
+        // Função para carregar a imagem selecionada e exibi-la no círculo
+        function loadFile(event) {
+            var output = document.getElementById('profile-picture-label');
+            var imageUrl = URL.createObjectURL(event.target.files[0]);
+            output.style.backgroundImage = "url('" + imageUrl + "')";
+            output.textContent = '';
+
+            // Armazena a imagem no localStorage
+            var reader = new FileReader();
+            reader.onload = function() {
+                localStorage.setItem('profileImage', reader.result);
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>
